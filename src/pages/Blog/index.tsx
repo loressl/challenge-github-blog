@@ -1,7 +1,12 @@
+import { Profile } from "../../components/Profile";
+import { Container } from "./styles";
+
 export function Blog(){
     return(
-        <div>
-            blog
-        </div>
+        <Container>
+            <main>
+                <Profile />
+            </main>
+        </Container>
     )
 }
