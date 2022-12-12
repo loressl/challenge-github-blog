@@ -13,5 +13,6 @@ export const HeaderContainer = styled.header`
     img {
         height: fit-content;
         margin-top: 4rem;
+        margin-bottom: 2.875rem;
     }
 `
