@@ -8,7 +8,7 @@ export const ProfileContainer = styled.div`
     width: 54rem;
     height: 13.25rem;
     background: ${(props) => props.theme["base-profile"]};
-    //margin-top: calc(0px - 13rem/2);
+    margin-top: calc(0px - 13rem/2);
 
     box-shadow: 0px 2px 28px rgba(0, 0, 0, 0.2);
     border-radius: 0.625rem;
@@ -67,7 +67,11 @@ export const Info = styled.div`
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    color: ${(props)=> props.theme["base-subtitle"]};
+    color: ${(props)=> props.theme["base-label"]};
+
+    span {
+        color: ${(props)=> props.theme["base-subtitle"]};
+    }
 `
 export const ContentInfo = styled.div`
     display: flex;

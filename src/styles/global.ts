@@ -45,4 +45,8 @@ export const GlobalStyled = createGlobalStyle`
     button {
         border: 0;
     }
+
+    span, p {
+        color: ${(props) => props.theme["base-text"]};
+    }
 `;

@@ -1,8 +1,12 @@
 import { Description, PostContainer, TitleContainer } from "./styles";
 
-export function PostComponent() {
+interface PostComponentProps {
+    handlePost: () => void
+}
+
+export function PostComponent({handlePost}: PostComponentProps) {
     return (
-        <PostContainer>
+        <PostContainer onClick={handlePost}>
             <TitleContainer>
                 <span>JavaScript data types and data structures</span>
                 <p>Há 1 dia</p>

@@ -3,7 +3,16 @@ import { Profile } from "../../components/Profile";
 import { SearchInput } from "../../components/SearchInput";
 import { Container, ListPostContainer } from "./styles";
 
+import { useNavigate } from 'react-router-dom'
+
 export function Blog(){
+
+    const navigate = useNavigate()
+
+    const handlePost = () => {
+        navigate('/post', { state: { name: 'teste' }})
+    }
+
     return(
         <Container>
             <main>
@@ -11,9 +20,7 @@ export function Blog(){
                 <SearchInput />
 
                 <ListPostContainer>
-                    <PostComponent />
-                    <PostComponent />
-                    <PostComponent />
+                    <PostComponent handlePost={handlePost} />
                 </ListPostContainer>
             </main>
         </Container>

@@ -9,6 +9,16 @@ export const PostContainer = styled.div`
     background: ${(props) => props.theme["base-post"]};
     padding: 2rem;
     gap: 1.25rem;
+
+    &:hover {
+        border: 0.125rem solid ${(props) => props.theme["base-label"]};
+        cursor: pointer;
+        padding: 1.875rem;
+    }
+
+    &:active {
+        transform: scale(0.99);
+    }
 `
 
 export const TitleContainer = styled.div`
