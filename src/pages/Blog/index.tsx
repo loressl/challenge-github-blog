@@ -1,5 +1,5 @@
 import { PostComponent } from "../../components/PostComponent";
-import { Profile } from "../../components/Profile";
+import { Profile } from "./components/Profile";
 import { SearchInput } from "../../components/SearchInput";
 import { Container, ListPostContainer } from "./styles";
 

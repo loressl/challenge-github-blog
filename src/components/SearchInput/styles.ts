@@ -5,6 +5,10 @@ export const SearchInputContainer = styled.div`
     flex-direction: column;
     margin-top: 4.5rem;
     margin-bottom: 3rem;
+
+    form {
+        width: 100%;
+    }
 `
 export const Publication = styled.div`
     display: flex;
@@ -34,6 +38,7 @@ export const Input = styled.input`
     border: 1px solid ${(props) => props.theme["base-border"]};
     padding: 0.75rem 1rem;
     color: ${(props) => props.theme["base-text"]};
+    width: inherit;
 
     &::placeholder {
       color: ${(props) => props.theme["base-label"]};

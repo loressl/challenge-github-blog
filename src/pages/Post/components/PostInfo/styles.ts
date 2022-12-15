@@ -41,23 +41,3 @@ export const PostInfoTitle = styled.span`
   color: ${(props) => props.theme["base-title"]};
   margin-bottom: 0.5rem;
 `;
-
-export const PostInfoFooter = styled.footer`
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  color: ${(props) => props.theme["base-span"]};
-
-  span {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.6;
-    color: inherit;
-  }
-`;
-
-export const ContentInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;

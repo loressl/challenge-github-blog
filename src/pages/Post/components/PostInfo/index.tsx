@@ -1,7 +1,10 @@
-import { faCalendarDay, faChevronLeft, faComment, faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarDay, faChevronLeft, faComment } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ChooseOption, ContentInfo, PostInfoContainer, PostInfoFooter, PostInfoHeader, PostInfoTitle } from "./styles";
+import { ChooseOption, PostInfoContainer, PostInfoHeader, PostInfoTitle } from "./styles";
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import { GitHub } from '../../../../components/GitHub';
+import { GroupInfo } from '../../../../components/GroupInfo';
+import { useTheme } from 'styled-components';
 
 const contentInfo = [
     {
@@ -19,6 +22,8 @@ const contentInfo = [
 ]
 
 export function PostInfo() {
+    const theme = useTheme()
+
     return (
         <PostInfoContainer>
             <PostInfoHeader>
@@ -27,22 +32,17 @@ export function PostInfo() {
                     <span>Voltar</span>
                 </ChooseOption>
 
-                <ChooseOption to="#">
-                    <span>Ver no github</span>
-                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                </ChooseOption>
+                <GitHub title="ver no github" url="#" />
             </PostInfoHeader>
 
             <PostInfoTitle>JavaScript data types and data structures</PostInfoTitle>
 
-            <PostInfoFooter>
-                {contentInfo.map((item) => (
-                    <ContentInfo key={item.content}>
-                        <FontAwesomeIcon icon={item.iconInfo} />
-                        <span>{item.content}</span>
-                    </ContentInfo>
-                ))}
-            </PostInfoFooter>
+            <GroupInfo 
+                gap={2}
+                colorLabel={theme['base-span']}
+                colorSubtitle='inherit'
+                infoList={contentInfo}
+            />
         </PostInfoContainer>
     )
 }
