@@ -44,3 +44,8 @@ export const Input = styled.input`
       color: ${(props) => props.theme["base-label"]};
     }
 `
+
+export const ErrorMessage = styled.span`
+    margin-top: 0.5rem;
+    font-size: 12px;
+`
