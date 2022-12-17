@@ -9,7 +9,7 @@ interface GitHubProps {
 
 export function GitHub({ url, title }: GitHubProps) {
     return (
-        <GitHubContainer to={url}>
+        <GitHubContainer href={url}>
             <Title>{title}</Title>
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
         </GitHubContainer>

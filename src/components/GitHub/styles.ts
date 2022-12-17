@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const GitHubContainer = styled(Link)`
+export const GitHubContainer = styled.a`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;

@@ -23,8 +23,8 @@ export function Blog(){
 
     const { handleSubmit } = inputSearchForm
 
-    const handlePost = () => {
-        navigate('/post', { state: { name: 'teste' }})
+    const handlePost = (issueNumber: number) => {
+        navigate(`/post/${issueNumber}`,)
     }
 
     const handleSearch = (data: InputSearchForm) => {
@@ -43,7 +43,15 @@ export function Blog(){
                 </form>
 
                 <ListPostContainer>
-                    <PostComponent handlePost={handlePost} />
+                    <PostComponent 
+                        handlePost={handlePost} 
+                        post={{
+                            body: 'Programming languages all have built-in data structures, but these often differ from one language to another. This article attempts to list the built-in data structures available in JavaScript and what properties they have. These can be used to build other data structures. Wherever possible, comparisons with other languages are drawn.',
+                            number: 3,
+                            title: 'JavaScript data types and data structures',
+                            updated_at: 'há 1 dia',
+                        }}
+                    />
                 </ListPostContainer>
             </main>
         </Container>

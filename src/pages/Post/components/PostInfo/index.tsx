@@ -5,24 +5,28 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { GitHub } from '../../../../components/GitHub';
 import { GroupInfo } from '../../../../components/GroupInfo';
 import { useTheme } from 'styled-components';
+import { useMemo } from 'react';
+import { useGitHub } from '../../../../context/useGitHub';
 
-const contentInfo = [
-    {
-        iconInfo: faGithub,
-        content: 'cameronwll'
-    },
-    {
-        iconInfo: faCalendarDay,
-        content: 'Há 1 dia'
-    },
-    {
-        iconInfo: faComment,
-        content: '5 comentários'
-    },
-]
 
 export function PostInfo() {
     const theme = useTheme()
+    const { post } = useGitHub()
+
+    const contentInfo = useMemo(() => [
+        {
+            iconInfo: faGithub,
+            content: post.user.login
+        },
+        {
+            iconInfo: faCalendarDay,
+            content: post.updated_at
+        },
+        {
+            iconInfo: faComment,
+            content: `${post.comments} comentários`
+        },
+    ], [])
 
     return (
         <PostInfoContainer>
@@ -35,7 +39,7 @@ export function PostInfo() {
                 <GitHub title="ver no github" url="#" />
             </PostInfoHeader>
 
-            <PostInfoTitle>JavaScript data types and data structures</PostInfoTitle>
+            <PostInfoTitle>{post.title}</PostInfoTitle>
 
             <GroupInfo 
                 gap={2}

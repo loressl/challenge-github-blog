@@ -1,25 +1,23 @@
+import { PostProps } from "../../context/useGitHub";
 import { Description, PostContainer, TitleContainer } from "./styles";
 
+type Post = Omit<PostProps, 'user' | 'comments'>
+
 interface PostComponentProps {
-    handlePost: () => void
+    handlePost: (issueNumber: number) => void
+    post: Post
 }
 
-export function PostComponent({handlePost}: PostComponentProps) {
+export function PostComponent({handlePost, post}: PostComponentProps) {
     return (
-        <PostContainer onClick={handlePost}>
+        <PostContainer onClick={() => handlePost(post.number)}>
             <TitleContainer>
-                <span>JavaScript data types and data structures</span>
-                <p>Há 1 dia</p>
+                <span>{post.title}</span>
+                <p>{post.updated_at}</p>
             </TitleContainer>
 
             <Description>
-                Programming languages all have built-in data structures, but these often differ from one language to another. This article attempts to list the built-in data structures available in JavaScript and what properties they have. These can be used to build other data structures. Wherever possible, comparisons with other languages are drawn.
-                Dynamic typing
-                JavaScript is a loosely typed and dynamic language. Variables in JavaScript are not directly associated with any particular value type, and any variable can be assigned (and re-assigned) values of all types:
-
-                let foo = 42; // foo is now a number
-                foo = 'bar'; // foo is now a string
-                foo = true; // foo is now a boolean
+                {post.body}
             </Description>
         </PostContainer>
     )

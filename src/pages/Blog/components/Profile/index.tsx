@@ -2,42 +2,43 @@ import { Avatar, Bio, ProfileContainer, ProfileInfo, ProfileTitle } from "./styl
 import { faBuilding, faUserGroup } from '@fortawesome/free-solid-svg-icons'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
-import avatar from '../../../../assets/avatar.svg'
 import { GitHub } from "../../../../components/GitHub";
 import { useTheme } from "styled-components";
 import { GroupInfo } from "../../../../components/GroupInfo";
+import { useGitHub } from "../../../../context/useGitHub";
+import { useMemo } from "react";
 
-const contentInfo = [
-    {
-        iconInfo: faGithub,
-        content: 'cameronwll'
-    },
-    {
-        iconInfo: faBuilding,
-        content: 'Rocketseat'
-    },
-    {
-        iconInfo: faUserGroup,
-        content: '32 seguidores'
-    },
-]
 
 export function Profile() {
     const theme = useTheme()
+    const { profile } = useGitHub()
+
+    const contentInfo = useMemo(() => [
+        {
+            iconInfo: faGithub,
+            content: profile.login
+        },
+        {
+            iconInfo: faBuilding,
+            content: profile.company
+        },
+        {
+            iconInfo: faUserGroup,
+            content: `${profile.followers} seguidores`
+        },
+    ], [profile])
 
     return (
         <ProfileContainer>
-            <Avatar src={avatar} alt="avatar" />
+            <Avatar src={profile.avatar_url} alt="avatar" />
             <ProfileInfo>
 
                 <ProfileTitle>
-                    <span>Cameron Williamson</span>
-                    <GitHub title="Github" url="#" />
+                    <span>{profile.name}</span>
+                    <GitHub title="Github" url={profile.html_url} />
                 </ProfileTitle>
 
-                <Bio>
-                    Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat pulvinar vel mass.
-                </Bio>
+                <Bio>{profile.bio}</Bio>
 
                 <GroupInfo
                     gap={1.5}

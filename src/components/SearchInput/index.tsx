@@ -1,14 +1,16 @@
 import { useFormContext } from "react-hook-form";
+import { useGitHub } from "../../context/useGitHub";
 import { ErrorMessage, Input, Publication, SearchInputContainer } from "./styles";
 
 export function SearchInput() {
     const { register, formState: { errors } } = useFormContext()
-    console.log(errors)
+    const { listPost } = useGitHub()
+
     return (
         <SearchInputContainer>
             <Publication>
                 <span>Publicações</span>
-                <p>6 publicações</p>
+                <p>{`${listPost.total_count} publicações`}</p>
             </Publication>
             <Input
                 {...register('search')}
