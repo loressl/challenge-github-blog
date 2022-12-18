@@ -7,15 +7,18 @@ import * as zod from 'zod'
 
 import { useNavigate } from 'react-router-dom'
 import { FormProvider, useForm } from "react-hook-form";
+import { useGitHub } from "../../context/useGitHub";
+import { distanceToNow } from "../../utils/formatter";
 
 const inputSearchValidationSchema = zod.object({
-    search: zod.string().min(3, 'Sua busca deve conter mais de 3 caracteres'),
+    search: zod.string(),
 })
 
 export type InputSearchForm = zod.infer<typeof inputSearchValidationSchema>
 
 export function Blog(){
     const navigate = useNavigate()
+    const { listPost, fetchPosts, fetchIssue } = useGitHub()
 
     const inputSearchForm = useForm<InputSearchForm>({
         resolver: zodResolver(inputSearchValidationSchema)
@@ -23,12 +26,13 @@ export function Blog(){
 
     const { handleSubmit } = inputSearchForm
 
-    const handlePost = (issueNumber: number) => {
-        navigate(`/post/${issueNumber}`,)
+    const handlePost = async (issueNumber: number) => {
+        navigate(`/post/${issueNumber}`)
+        await fetchIssue(issueNumber)
     }
 
-    const handleSearch = (data: InputSearchForm) => {
-        console.log(data)
+    const handleSearch = async (data: InputSearchForm) => {
+        await fetchPosts(data.search)
     }
 
     return(
@@ -43,15 +47,19 @@ export function Blog(){
                 </form>
 
                 <ListPostContainer>
-                    <PostComponent 
-                        handlePost={handlePost} 
-                        post={{
-                            body: 'Programming languages all have built-in data structures, but these often differ from one language to another. This article attempts to list the built-in data structures available in JavaScript and what properties they have. These can be used to build other data structures. Wherever possible, comparisons with other languages are drawn.',
-                            number: 3,
-                            title: 'JavaScript data types and data structures',
-                            updated_at: 'há 1 dia',
-                        }}
-                    />
+                    {listPost.posts.map((post) => (
+                        <PostComponent 
+                            key={post.number}
+                            handlePost={handlePost}
+                            post={{
+                                body: post.body,
+                                number: post.number,
+                                title: post.title,
+                                updated_at: distanceToNow(post.updated_at),
+                                html_url: post.html_url
+                            }}
+                        />
+                    ))}
                 </ListPostContainer>
             </main>
         </Container>

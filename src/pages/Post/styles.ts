@@ -1,3 +1,4 @@
+import reactMarkdown from "react-markdown";
 import styled from "styled-components";
 
 export const PostContainer = styled.div`
@@ -11,7 +12,7 @@ export const PostContainer = styled.div`
   }
 `;
 
-export const Content = styled.div`
+export const Content = styled(reactMarkdown)`
   padding: 2.5rem 2rem;
   font-size: 16px;
   line-height: 1.6;

@@ -5,14 +5,22 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { GitHub } from '../../../../components/GitHub';
 import { GroupInfo } from '../../../../components/GroupInfo';
 import { useTheme } from 'styled-components';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useGitHub } from '../../../../context/useGitHub';
+import { distanceToNow } from '../../../../utils/formatter';
+import { useParams } from 'react-router-dom';
 
 
 export function PostInfo() {
+    const params = useParams()
     const theme = useTheme()
-    const { post } = useGitHub()
+    const { post, fetchIssue } = useGitHub()
 
+    useEffect(()=>{
+        const reloadPost = async () => fetchIssue(Number(params.issueNumber))
+        reloadPost()
+    }, [post])
+    
     const contentInfo = useMemo(() => [
         {
             iconInfo: faGithub,
@@ -20,13 +28,13 @@ export function PostInfo() {
         },
         {
             iconInfo: faCalendarDay,
-            content: post.updated_at
+            content: post.updated_at && distanceToNow(post.updated_at)
         },
         {
             iconInfo: faComment,
             content: `${post.comments} comentários`
         },
-    ], [])
+    ], [post])
 
     return (
         <PostInfoContainer>
@@ -36,7 +44,7 @@ export function PostInfo() {
                     <span>Voltar</span>
                 </ChooseOption>
 
-                <GitHub title="ver no github" url="#" />
+                <GitHub title="ver no github" url={post.html_url} />
             </PostInfoHeader>
 
             <PostInfoTitle>{post.title}</PostInfoTitle>

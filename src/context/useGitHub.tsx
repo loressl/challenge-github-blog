@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { api } from "../services/api";
 
 interface GitHubProviderProps {
     children: ReactNode
@@ -23,6 +24,7 @@ export interface PostProps {
     updated_at: string
     body: string
     comments: number
+    html_url: string
 }
 
 export interface ListPostProps {
@@ -34,21 +36,25 @@ interface GitHubContextProps {
     profile: ProfileGitHubProps
     listPost: ListPostProps
     post: PostProps
-    handleSearch: (search: String) => void
-    handleIssue: (issueNumber: number) => void
+    fetchPosts: (search?: String) => void
+    fetchIssue: (issueNumber: number) => void
 }
 
 const GitHubContext = createContext<GitHubContextProps>({} as GitHubContextProps)
 
+const username = import.meta.env.VITE_USERNAME
+const repository = import.meta.env.VITE_REPOSITORY
+
 export function GitHubProvider({ children }: GitHubProviderProps) {
+
     const [profile, setProfile] = useState<ProfileGitHubProps>({
-        login: 'loressl',
-        avatar_url: "https://avatars.githubusercontent.com/u/34512572?v=4",
-        html_url: "https://github.com/loressl",
-        company: 'Compass.UOL',
-        bio: 'Graduated in Systems Analysis and Development',
-        followers: 145,
-        name: 'Lorena Lima'
+        login: '',
+        avatar_url: "",
+        html_url: "",
+        company: '',
+        bio: '',
+        followers: 0,
+        name: ''
     })
 
     const [listPost, setListPost] = useState<ListPostProps>({
@@ -57,34 +63,77 @@ export function GitHubProvider({ children }: GitHubProviderProps) {
     })
 
     const [post, setPost] = useState<PostProps>({
-        body: 'ahsdapsdhaosidhasoidjaosijdaijdiasjdiajs',
-        comments: 5,
-        number: 2,
-        title: 'JavaScript data types and data structures',
-        updated_at: 'há 1 dia',
+        body: '',
+        comments: 0,
+        number: 0,
+        title: '',
+        updated_at: '',
         user: {
-            html_url: '#',
-            login: 'cameronwll',
-        }
+            html_url: '',
+            login: '',
+        },
+        html_url: ''
     })
 
-    const handleSearch = (search: String) => {
+    const fetchProfile = useCallback(async () => {
+        await api.get(`/users/${username}`).then((response) => {
+            setProfile({
+                avatar_url: response.data.avatar_url,
+                bio: response.data.bio,
+                company: response.data.company,
+                followers: response.data.followers,
+                html_url: response.data.html_url,
+                login: response.data.login,
+                name: response.data.name
+            })
+        }).catch((error) => console.log(error))
+    }, [])
 
-    }
-    
-    const handleIssue = (issueNumber: number) => {
+    const fetchPosts = useCallback(async (search?: String) => {
+        await api.get(`/search/issues?q=${search || ' '}%20repo:${username}/${repository}`)
+            .then((response) => {
+                setListPost((oldPost) => {
+                    return {
+                        ...oldPost,
+                        total_count: response.data.total_count,
+                        posts: response.data.items,
+                    }
+                })
+            }).catch((error) => console.log(error))
+    }, [])
 
-    }
-    
+    useEffect(() => {
+        fetchProfile()
+        fetchPosts()
+    }, [])
 
-    return(
-        <GitHubContext.Provider 
+    const fetchIssue = useCallback(async (issueNumber: number) => {
+        await api.get(`/repos/${username}/${repository}/issues/${issueNumber}`)
+            .then((response) => {
+                setPost({
+                    comments: response.data.comments,
+                    number: response.data.number,
+                    title: response.data.title,
+                    updated_at: response.data.updated_at,
+                    user: {
+                        html_url: response.data.user.html_url,
+                        login: response.data.user.login
+                    },
+                    body: response.data.body,
+                    html_url: response.data.html_url
+                })
+            }).catch((error) => console.log(error))
+    }, [])
+
+
+    return (
+        <GitHubContext.Provider
             value={{
                 profile,
                 listPost,
                 post,
-                handleSearch,
-                handleIssue
+                fetchPosts,
+                fetchIssue
             }}
         >
             {children}
