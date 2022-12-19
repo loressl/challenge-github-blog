@@ -17,4 +17,7 @@ Nessa aplicação foram aplicados os conceitos de:
 <img alt="ignit" src="screens/blog.JPG" />
 <img alt="ignit" src="screens/post.JPG" />
 
+## Atenção
+- Para rodar o projeto, é necessário criar um arquivo .env com o USERNAME e o REPOSITÓRIO onde estão salvas as issues.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
